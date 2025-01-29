@@ -4,24 +4,16 @@ import pendulum
 from airflow.operators.bash import BashOperator
 
 with DAG(
-    # airflow 처음 들어왔을때 보이는 DAG의 이름을 의미(화면에서보이는 이름들 *python파일명과는 상관없음, 그러나 일반적으로 파일명과 일치시키는게 좋음. 나중에 수정시 dag이 많으면 찾기힘듦듦)
+    # airflow 처음 들어왔을때 보이는 DAG의 이름을 의미(화면에서보이는 이름들 *python파일명과는 상관없음, 그러나 일반적으로 파일명과 일치시키는게 좋음. 나중에 수정시 dag이 많으면 찾기힘듦)
     dag_id="dags_bash_operator", 
     # cron 스케줄, 이 dag의 주기 설정(분/시/일/월/요일 설정) 지금은 매일 0시0분에 도는작업
     schedule="0 0 * * *",
-    # dag이 언제부터 돌건지를 설정 tz는 timezone, UTC는 세계표준시로 한국보다 9시간 느림 -> Asia/Seoul로 무조건 바꿈꿈
+    # dag이 언제부터 돌건지를 설정 tz는 timezone, UTC는 세계표준시로 한국보다 9시간 느림 -> Asia/Seoul로 무조건 바꿈
     start_date=pendulum.datetime(2024, 1, 29, tz="Asia/Seoul"),
     # ex) 오늘이 3/1이고 start_date가 1/1일 경우 1/1~3/1까지 누락된것도 같이 돌릴거냐를 결정(True: 돌림, false:안돌림)
     # 주의해야할것은 순서대로가 아닌 한번에 돌리기 때문에 문제가 생길수있음. 그래서 보통은 False로 둠.
     catchup=False
 
-    # 60분이상 돌게되면은 timeout, 실패하도록 설정하는것 > 필요없으면 제거해도됨
-    # dagrun_timeout=datetime.timedelta(minutes=60),
-
-    # 화면에서 파란색값을 어떤값으로 설정할것인지를 의미, tag를 누르면 따로 추려서 볼수있음 (option느낌) > 필요없으면 제거해도됨
-    # tags=["example", "example2"],
-
-    # dag선언 밑에 task를 만들때 공통으로 넘겨줄 파라미터들 > 필요없으면 제거해도됨
-    # params={"example_key": "example_value"},
 ) as dag:
      # task는 오퍼레이터를 통해 만들어짐
      # bash_t1 : task 객체명임
