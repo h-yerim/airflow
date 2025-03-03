@@ -3,11 +3,10 @@ import pendulum
 from airflow.decorators import task
 
 
-
 with DAG(
     dag_id="dags_python_with_macro",
     schedule="10 0 * * *",
-    start_date=pendulum.datetime(2023, 3, 1, tz="Asia/Seoul"),
+    start_date=pendulum.datetime(2025, 3, 3, tz="Asia/Seoul"),
     catchup=False
 ) as dag:
     
@@ -16,6 +15,7 @@ with DAG(
                       'end_date': '{{ (data_interval_end.in_timezone("Asia/Seoul").replace(day=1) + macros.dateutil.relativedelta.relativedelta(days=-1)) | ds }}'
      }
     )
+    # 매크로 변수를 이용해서 날짜 연산
     def get_datetime_macro(**kwargs):
         
         templates_dict = kwargs.get('templates_dict') or {}
@@ -25,9 +25,10 @@ with DAG(
             print(start_date)
             print(end_date)
 
-
+    # 직접 날짜 연산(매크로X)
     @task(task_id='task_direct_calc')
     def get_datetime_calc(**kwargs):
+        # 여기에 라이브러리를 import한 이유: 스케줄러 부하 경감을 위해
         from dateutil.relativedelta import relativedelta
 
         data_interval_end = kwargs['data_interval_end']
