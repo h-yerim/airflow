@@ -1,6 +1,7 @@
 from airflow import DAG
 import pendulum
 from airflow.operators.empty import EmptyOperator
+# Edge label import
 from airflow.utils.edgemodifier import Label
 
 
@@ -19,6 +20,7 @@ with DAG(
         task_id='empty_2'
     )
 
+    # empty_1 task와 empty_2 task사이에 설명 추가
     empty_1 >> Label('1과 2사이') >> empty_2
 
     empty_3 = EmptyOperator(
