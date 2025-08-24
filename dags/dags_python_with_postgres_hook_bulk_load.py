@@ -11,7 +11,7 @@ from airflow import DAG
 
 with DAG(
         dag_id='dags_python_with_postgres_hook_bulk_load',
-        start_date=pendulum.datetime(2025, 8, 25, tz='Asia/Seoul'),
+        start_date=pendulum.datetime(2025, 8, 24, tz='Asia/Seoul'),
         schedule='0 7 * * *',
         catchup=False
 ) as dag:
