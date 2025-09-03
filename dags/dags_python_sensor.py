@@ -31,7 +31,7 @@ with DAG(
         last_date = last_dt[:10]
         last_date = last_date.replace('.', '-').replace('/', '-')
         try:
-            pendulum.from_format(last_date,'YYYY-MM-DD')
+            pendulum.from_format(last_date,'YYYY-MM-DD') #last_date를 'YYYY-MM-DD' 형식으로 인식해서 파싱이 가능하면 진행, 아니면 except
         except:
             from airflow.exceptions import AirflowException
             AirflowException(f'{base_dt_col} 컬럼은 YYYY.MM.DD 또는 YYYY/MM/DD 형태가 아닙니다.')
